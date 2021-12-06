@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Donation Form </title>
+		<style>
+		.Donation-form {
+			width: 75%;
+			margin: 0 auto;
+			font-family: Tahoma, Geneva, sans-serif;
+			align-content: center;
+		}
+		.Donation-form h1 {
+			text-align: center;
+			color: #4d4d4d;
+			font-size: 24px;
+			padding: 20px 0 20px 0;
+		}
+		.submit {
+			width: 50%;
+			padding: 15px;
+			background-color: #535b63;
+			border: 0;
+			box-sizing: border-box;
+			cursor: pointer;
+			font-weight: bold;
+			color: #ffffff;
+		}
+
+		.reset {
+			width: 50%;
+			padding: 15px;
+			background-color: red;
+			border: 0;
+			box-sizing: border-box;
+			cursor: pointer;
+			font-weight: bold;
+			color: #ffffff;
+		}
+		</style>
+	</head>
+	<body>
+		<center>
+		<div class="Donation-form">
+			
+			<form action="auth" method="POST" autocomplete="off">
+				<table cellpadding="5">
+				<tr>
+					<th colspan="2"><h1>Donation Form</h1></th>
+			   </tr>
+					
+			<tbody>
+				<tr>
+					<td>Donor Name</td>
+					<td>
+						<input type="text" id="donorName" name="donorName" placeholder="Name" required></br></br>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>Donation Type</td>
+					<td>
+					<label for="donationType"></label>
+					<select name="donationType" id="donationType" required>
+						<option value="select">---Select---</option>
+						<option value="electronics">Electronics</option>
+						<option value="clothes">Clothes</option>
+						<option value="books">Books</option>
+						<option value="recycle">Recyclable Items</option>
+					</select></br></br>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>Item Name</td>
+					<td>
+						<input type="text" id="item" name="item" placeholder="item" required></br></br>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>Email Id</td>
+					<td>
+						<input type="email" id="mailID" name="mailID" placeholder="mail" required></br></br>
+					</td>
+				</tr>
+
+				<tr>
+					<td>Contact number</td>
+					<td><input type="number" id="phone" name="phone" pattern="^\d{10}$"
+						required="required"placeholder="phone" required></br></br></td>
+				</tr>
+
+				<tr>
+					<td>Land Mark</td>
+					<td><input type="text" id="landMark" name="landMark" placeholder="landmark" required></br></br></td>	
+				</tr>
+
+				<tr>
+					<td>Pin code</td>
+					<td><input type="pinCode" id="pinCode" name="pinCode" placeholder="pincode" required></br></br></td>
+				</tr>
+
+				<tr>
+					<td>
+						<input type="file" accept="image/*" name="image" id="image" required="required" onchange="loadFile(event)" style="display: none;"/></p>
+						<p><label for="image" style="cursor: pointer;">Click Here to upload item image</label></p>
+					</td>	
+					<td rowspan="5">
+						<p><img id="output" width="200" /></p>
+					</td>
+				</tr>
+				
+				<tr>
+					<td><button id="reset" name="reset" type="reset">Reset</button></td>
+					<td><button id="submit" name="submit" type="submit">Submit</button></td>
+				</tr>
+				</tbody>
+			</table>
+
+			</form>
+		</div>
+		</center>
+	</body>
+</html>
+
+<script>
+var loadFile = function(event) {
+	var image = document.getElementById('output');
+	image.src = URL.createObjectURL(event.target.files[0]);
+};
+
+	const form=document.getElementById('"Donation-form"');
+    const donorname=document.getElementById('donorName');
+    const email=document.getElementById('mailID');
+    const phone=document.getElementById('phone');	
+    const item=document.getElementById('item');
+    const landMark=document.getElementById('landMark');
+    const image=document.getElementById('image');
+ 
+ 
+//Show input error message
+ 
+function showError(input,message){
+    const formControl=input.parentElement;
+    formControl.className='form-control error';
+    const small=formControl.querySelector('small');
+    small.innerText=message;
+}
+ 
+function showSuccess(input){
+    const formControl=input.parentElement;
+    formControl.className='form-control success';
+    
+}
+ 
+//Email
+ 
+function isValidEmail(email)
+{
+    const re= /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+ 
+ 
+ 
+ 
+form.addEventListener('submit',function(e){
+    e.preventDefault();
+ 
+    if(donorname.value===''){
+        showError(donorname,'Donorname is required');
+    }
+    else{
+        showSuccess(donorname);
+    }
+	
+    if(email.value===''){
+        showError(email,'Email is required');
+    }else if(!isValidEmail(email.value)){
+        showError(email,'Email is not valid');
+    }
+    else{
+        showSuccess(email);
+    }
+
+	if(phone.value===''){
+        showError(phone,'Contact is required');
+    }
+    else{
+        showSuccess(phone);
+    }
+
+	if(item.value===''){
+        showError(item,'item name is required');
+    }
+    else{
+        showSuccess(item);
+    }
+
+	if(donationType.value===''){
+        showError(donationType,'item name is required');
+    }
+    else{
+        showSuccess(donationType);
+    }
+  
+    if(landMark.value===''){
+        showError(landMark,'landmark is required');
+    }
+    else{
+        showSuccess(landMark);
+    }
+
+	if(image.value===''){
+        showError(landMark,'image is required');
+    }
+    else{
+        showSuccess(landMark);
+    }
+	    
+});
+ 
+</script>
