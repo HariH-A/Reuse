@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Donaton Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+input[type=text], input[type=number], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+</style>
+</head>
+<body>
+	<h2><%= name %> </h2>  
+    <h2><%= email%></h2>
+    <h2><%= phone%> </h2>
+	
+<div class="container">
+  <form class='form' action="../sendOTP" method="post">
+
+	<h2>Donation Form</h2>
+	<p>Provide Details to Post the Donation</p>
+ 
+	<div class="row">
+		<div class="col-25">
+		  <label for="donationType">Donation Type</label>
+		</div>
+		<div class="col-75">
+		  <select name="donationType" id="donationType" required>
+			  <option >---Select---</option>
+			  <option value="electronics">Electronics</option>
+			  <option value="clothes">Clothes</option>
+			  <option value="books">Books</option>
+			  <option value="recycle">Recyclable Items</option>
+		  </select>	
+		</div>
+	  </div>
+
+	<div class="row">
+		<div class="col-25">
+		  <label for="item">Donation item</label>
+		</div>
+		<div class="col-75">
+		  <input type="text" id="item" name="item" required placeholder="Enter Doantion item">
+		</div>
+	  </div>
+
+    <div class="row">
+      <div class="col-25">
+        <label for="landMark">landMark</label>
+      </div>
+      <div class="col-75">
+        <input type="text" id="landMark" name="landMark" required placeholder="Enter Land Mark">
+      </div>
+    </div>
+
+	
+    <div class="row">
+		<div class="col-25">
+		  <label for="pinCode">Pin Code</label>
+		</div>
+		<div class="col-75">
+		  <input type="number" id="pinCode" name="pinCode" required placeholder="Enter Pin Code">
+		</div>
+	  </div>
+
+        
+    <div class="row">
+		<div class="col-25">
+		  <label for="donationDescription">Donation Description(If any)</label>
+		</div>
+		<div class="col-75">
+		  <textarea id="donationDescription" name="donationDescription" placeholder="Enter Donation Description (optional)" style="height: 100px;"></textarea>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class='col-25'>
+			<input type="file" accept="image/*" name="image" id="image" required onchange="loadFile(event)" style="display: none;"/></p>
+			<p><label for="image" style="cursor: pointer;">Click Here 
+				to upload item image</label></p>
+		</div>
+		<div class="col-75">
+			<p><img id="output" width="300" height="200" /></p>
+		</div>
+	</div>
+
+    <div class="row">
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+<script>
+	
+	var loadFile = function(event) {
+		var image = document.getElementById('output');
+		image.src = URL.createObjectURL(event.target.files[0]);
+	};
+
+	$(document).ready(function(){
+		if(email == null)
+		{
+			window.location.replace("http://localhost:3000/login.html");
+		}
+		if(name == null)
+		{
+			window.location.replace("http://localhost:3000/login.html");
+		}
+		
+	});
+</script>
