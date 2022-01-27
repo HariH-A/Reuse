@@ -1,0 +1,208 @@
+<title>Donations</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/x-icon" href="favicon.png">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {font-family: "Lato", Arial, Helvetica, sans-serif}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+tr:nth-child(even){background-color: #f2f2f2}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+   input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+</style>
+
+<body>
+<!-- Navbar -->
+<div class="topnav" id="myTopnav">
+	<a href="/">HOME</a>
+	<a href="NEWdonations" class="active">VIEW/DELETE DONATIONS</a>
+  
+	
+	<a href="login.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">LOGIN</a>
+	<a href="NEWdonationForm.html" class="w3-bar-item w3-button w3-padding-large w3-hide-small w3-right">DONATE</a>
+  </div>
+  
+  <script>
+  function myFunction() {
+	var x = document.getElementById("myTopnav");
+	if (x.className === "topnav") {
+	  x.className += " responsive";
+	} else {
+	  x.className = "topnav";
+	}
+  }
+  </script>
+<h3>Welcome! <%= name %>,</h3>
+<h4>Here are the list of Donations which was accepted by the users. You can remove the donations permanently or you can reject the acceptance or leave as it is, as per your wish.</h4>
+<form action="/acceptDonation" method="post">
+<div style="overflow-x:auto;">
+
+	<table>
+		<tr>
+			<th>Select</th>
+			<th>Donation Item Image</th>
+			<th>Donation Details</th>
+			<th>Acceptor Details</th> 
+		</tr>
+		<% donations.forEach(element => { 
+			if (element.isAccepted == 1){ %>
+		
+		<tr id="<%= element.donationID%>" name="<%= element.donationID%>">
+		<td>
+			<input type="radio" value="<%= element.donationID%>" required name="radioID" id="radioID">
+		</td>
+
+		<td><img alt="Embedded image" src="data:image/*;base64,<%= element.image %>" width="150" height="120"></td>
+		<td>
+				Category: <%= element.donationType%> <br>
+				Item Name: <%= element.item%> <br>
+				<% if (element.donationDescription !== '') { %>
+				Description: <%= element.donationDescription%> <br>
+				<% } %>
+		</td>
+		<td>
+			Name: <%= element.acceptorName %><br>
+			Email: <a href="mailto:<%=element.acceptorEmail%>"><%=element.acceptorEmail%></a></br>
+			Phone: <a href="https://wa.me/<%=element.acceptorPhone%>"><%=element.acceptorPhone%></a></br>
+		</td>
+	</tr>
+	<%} }); %>
+	</table>
+		<input style="margin:5px;" type="submit" formaction="/NEWdeleteDonation" class="btn_DeleteDonation" value="Remove Donation">
+		<input style="margin:5px;" type="submit" formaction="/NEWrejectAcceptance" class="btn_RejectAcceptance" value="Reject Acceptance">
+	</form>
+
+<br><br><br><br> 	
+<h4>Here are the list of Donations which was yet to accept. You can remove the donations or leave as it is, as per your wish..</h4>
+<form action="/NEWremoveDonation" method="post">
+<div style="overflow-x:auto;">
+	<table>
+		<tr>
+			<th>Select</th>
+			<th>Donation Item Image</th>
+			<th>Donation Item Detail</th>
+			<th>Donation Geographic Details</th> 
+		</tr>
+		<% donations.forEach(element => { 
+			if (element.isAccepted == 0){ %>
+		
+		<tr id="<%= element.donationID%>" name="<%= element.donationID%>">
+		<td>
+			<input type="radio" value="<%= element.donationID%>" required name="radioID" id="radioID">
+		</td>
+
+		<td><img alt="Embedded image" src="data:image/*;base64,<%= element.image %>" width="150" height="120"></td>
+		<td>
+				Category: <%= element.donationType%> <br>
+				Item Name: <%= element.item%> <br>
+				<% if (element.donationDescription !== '') { %>
+				Description: <%= element.donationDescription%> <br>
+				<% } %>
+		</td>
+		<td>
+			Landmark: <%= element.landMark%> <br>
+			Pincode: <%= element.pinCode%> <br>
+		</td>
+	</tr>
+	<%} }); %>
+	</table>
+		<input type="submit" class="btn_RejectDonation" value="Remove Donation">
+	</form>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
