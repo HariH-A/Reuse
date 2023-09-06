@@ -12,6 +12,7 @@ cryptr = new Cryptr('myTotalySecretKey');
 /*var fs = require('fs');
 var https = require("https");*/
 var connection = require('./config');
+require('dotenv').config();
 
 var app = express();
 
@@ -32,9 +33,9 @@ app.use(express.static(path.join(__dirname + "/images")));
 var upload = multer({
   storage: multer.memoryStorage()
 });
-let port = 3000;
-app.listen(port,() => {
-  console.log(`App is listening on Port http://localhost:${port}`)
+
+app.listen(process.env.PORT,() => {
+  console.log(`App is listening on Port http://localhost:${process.env.PORT}`)
 });
 /*
 const sslServer = https.createServer(
