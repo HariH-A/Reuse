@@ -9,8 +9,8 @@ var alert = require('alert');
 var multer = require('multer');
 const ejsLint = require('ejs-lint');
 cryptr = new Cryptr('myTotalySecretKey');
-var fs = require('fs');
-var https = require("https");
+/*var fs = require('fs');
+var https = require("https");*/
 var connection = require('./config');
 
 var app = express();
@@ -32,7 +32,11 @@ app.use(express.static(path.join(__dirname + "/images")));
 var upload = multer({
   storage: multer.memoryStorage()
 });
-
+let port = 3000;
+app.listen(port,() => {
+  console.log(`App is listening on Port http://localhost:${port}`)
+});
+/*
 const sslServer = https.createServer(
   {
     key: fs.readFileSync(path.join(__dirname, 'ssl', 'server.key')),
@@ -41,7 +45,7 @@ const sslServer = https.createServer(
   app
 )
 sslServer.listen(3000, () => console.log(`SSL server is running at https://localhost:3000`))
-
+*/
 app.get('/', function (request, response) {
   response.sendFile(path.join( __dirname + "/home.html") );  
 }); 
@@ -314,7 +318,7 @@ app.post('/sendOTP',upload.single('image'), function(request, response){
 		from: 'reusedonation@gmail.com',
 		to: email,
 		subject: 'Donation confirmation',
-		html:  "<h3>Hi " + request.session.name +",</h3><h3> OTP to confirm your donation in Donation portal is </h3>"  + "<h1 style='font-weight:bold;'>" + otp +"</h1>" // html body
+		html:  "<h3>Hi " + request.session.name +",</h3><h3> OTP to confirm your donation in Reuse Donation portal is </h3>"  + "<h1 style='font-weight:bold;'>" + otp +"</h1>" // html body
 	  };
 
 	transporter.sendMail(mailOptions, function(error, info){
